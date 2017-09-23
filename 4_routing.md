@@ -1,5 +1,7 @@
 ## Questions
 
+  1. Are BGP communites used to change inbound traffic?
+
 -----------
 
 ## Routing
@@ -84,3 +86,30 @@ route_advertisement = {
 #### Local Preference
   - useful for configuring primary and backup routes
   - basically, the default is 100 and network operators can adjust the LPV to control **outbound** traffic
+    - usually local preference values LPVs are used to control outbound traffic
+    - if you want to control incomin traffic to yourself, you can use **BGP Communites**. These are basically *tags* that are attached to a route to effect how a neighboring AS sets local preference.
+
+#### Multi Exit Disriminator (MED)
+  - overrides hot potato routing
+    - you set a higher MED on one of your incoming routes
+  - it's used to force the sender to route traffic across it's own backbone instead of dumping traffic onto the reciever
+  - one issue is that a small change in IGP routing inside the senders network can cause 10x thousands of IP routing addresses to change
+
+#### Inter-Domain Routing Business Relationships
+  - there are 2 kinds of interdomain business relationships
+
+  1. Customer/Provider
+    - money goes from the customer to the provider
+    - is independent of the direction that traffic flows
+  2. Peering (a.k.a. Settlement-Free Peering)
+    - AS can exchange traffic with another AS free of charge
+
+  - the rules of preferences are Customer > Peer > Provider
+  - also need to consider filtering/export decisions
+    - basically the rules are this:
+      - if you learn a new route via a customer; advertise that route to all connections
+      - if you learn a new route via a provider or a peer, only advertise that to customers. You do not want other providers routing through you when you're paying for the routing
+
+#### Interdomain routing can oscillate indefinitely
+
+  - BGP is not guaranteed to be stable
