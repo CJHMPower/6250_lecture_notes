@@ -1,5 +1,8 @@
 ## Questions
   - for test prep #3, why does it match even though the 9 in 39 doesn't match with the 2 in 32
+  - direct trie quiz #2 makes no sense at all to me
+  - you need to go over the 4-ary trie again
+    - Why is k==4 have each node responsible for 2 bits?
 
 -----------------------
 
@@ -86,9 +89,35 @@ sent next?
     - it uses a routing table to determine the answer to this question (which port it should send the packet out of)
     - the router will take the rules from the routing table and apply them to a k-ary tree.
 
+#### Address Lookup using Tries
+  - The tree in the LPM video is called a 'single bit trie'
+  - one issue with a single bit trie is the # of memory accesses required to perform a single lookup
+
 #### Multihoming
   - contributed to the growth of global routing tables ~1999
   - makes it difficult for upstream providers to aggregate IP prefixes together
     - for instance: Say you have 2 ISPs that get the same IP address that an AS wants to advertise.
     - If the ISPs wanted to aggregate the (say /24) prefix into their prefix (say /8) than the one with the longest prefix would get all the traffic -
       so they can't really aggregate it
+
+#### NAT and IPv6
+  - these are solutions to the 32 bit problem
+  - let's say that a host `192.168.10.1` is behind a private network and wants to send a packet to a destination on the public internet `18.31.0.38`
+    - it will have a src and dst header like so:
+
+```
+header = {
+  src: 192.168.10.1:1234,
+  dst: 18.31.0.38:80
+}
+```
+
+  - the NAT will that that src IP and port, and translate it into a publicly reachable IP address and port (i.e. `133.4.1.5:5678`)
+  - one downside is that the e2e model is broken
+
+  - Since 'narrow waist' requires everything to use IP, it's very hard to get full adoption of IPv6
+
+##### Solutions for adopting IPv6
+  - dual stack: host speaks both v4 and v6
+    - does not solve the problem of IPv6 islands
+      - Islands can be solved using **6to4 tunneling**. This wraps an IPv6 address in an IPv4 packet
