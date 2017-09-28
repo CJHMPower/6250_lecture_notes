@@ -17,3 +17,28 @@
       persistent.
 
 4. In what way are caching HTTP proxies a violation of the end-to-end argument?  Also, what are the consequences of this?
+  - http proxies sit in between a client and host. Since the packets are inspected on the proxy, they violate the e2e agreement.
+  - Negative consequences are that it increases the attack surface on unencrypted packets if a malicious attack were to take place.
+  - Positive consequences are the efficiency increases in response times for common requests.
+
+5. The forwarding tables for all switches in this network are initially empty.
+   Host 192.168.1.1 sends and ARP request to discover the MAC address of the
+host with IP 192.168.1.2. What entries will be in the forwarding table of each
+switch after host 192.168.1.1 receives the ARP reply?
+
+|switch|port|node|
+|---|---|---|
+|sw3|1|A|
+|sw3|2|B|
+|sw1|3|A|
+|sw1|2|B|
+|sw4|2|A|
+|sw4|1|B|
+|sw2|1|B| This one was incorrect
+|sw2|1|A|
+
+6.  When a host on the private network side of a NAT with IP 192.168.1.100 opens a TCP
+connection to a web server at 123.45.67.89, what entry will be added to the following
+NAT table, and what will be the source and destination IP and port on the packet that
+the NAT router forwards on the WAN (public) side? (Recall that the default port for
+HTTP is port 80.)
